@@ -1,8 +1,13 @@
 #include "graph.h"
 
 int main() {
+	std::cout << "Starting\n";
 	graph mygraph;
-	std::cout << "Num of Nodes : " << mygraph.getNumNodes();
-
+	mygraph.setBase(mygraph.getNumNodes());
+	mygraph.fillBase();
+	mygraph.printBase();
+	
+	mygraph.DijkstrasAlg();
+	
 	return 0;
 }
