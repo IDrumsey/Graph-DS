@@ -1,0 +1,9 @@
+Initialization - 
+	set start node
+	set unvisited nodes list
+	set visited nodes list
+	set table - node, shortest distance from start node, prev node
+
+1. Visit all nodes connected to currNode and record the distance and prev node
+2. Remove currNode from unvisited list
+3. set new currNode to connected/non-self node closest to prev currNode

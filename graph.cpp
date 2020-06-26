@@ -121,9 +121,10 @@ void DSPA::printVisUnvis(){
 	for(int i = 0; i < unvisited.size(); i++){
 		cout << unvisited[i];
 		if(i != unvisited.size()-1){
-			cout << " | \n\n";
+			cout << " | ";
 		}
 	}
+
 	cout << "\n\nVisited : ";
 	
 	for(int i = 0; i < visited.size(); i++){
@@ -147,10 +148,33 @@ void DSPA::run(graph g){
 
 	//Make sure each node is currNode
 	for(int i = 0; i < nRowTable; i++){
-		cout << "currNode = " << table[i].NodeLetter << " : Neighbors = ";
-		vector<node> neighbors = getNeighbors(g, currNode);
+		currNodeInd = getCurrNodeInd(g, table[i].NodeLetter);
+		vector<node> neighbors = getNeighbors(g, table[i].NodeLetter);
+		int neighInd;
+		
+		cout << "Current node : " << table[currNodeInd].NodeLetter << endl;
 		for(int j = 0; j < neighbors.size(); j++){
-			cout << neighbors[j].letter << " ";
+			
+			//Get index of neighbor in table
+			cout << "Current neighbor : " << neighbors[j].letter << " " << neighbors[j].weight << endl;
+			
+			cout << "nrows : " << nRowTable << endl;
+			for(int a = 0; a < nRowTable; a++){
+				cout << table[a].NodeLetter << " compare " << neighbors[j].letter << endl;
+				if(table[a].NodeLetter == neighbors[j].letter){
+					neighInd = a;
+					break;
+				}
+			}
+			
+			cout << "Distance from start : " << neighbors[j].weight << endl;
+			
+			table[neighInd].shortestDistance = neighbors[j].weight;
+			if(table[neighInd].NodeLetter != neighbors[j]){
+				table[neighInd].prevNode = table[currNodeInd].NodeLetter;
+			}
+			printTable();
+			cout << "\n\n\n";
 		}
 	}
 }
@@ -164,13 +188,12 @@ int DSPA::getCurrNodeInd(graph g, char c){
 	return -1;
 }
 
-std::vector<node> getNeighbors(graph g, char c){
+std::vector<node> DSPA::getNeighbors(graph g, char c){
 	vector<node> neighbors;
-	cout << "currNodeInd = " << currNodeInd << endl;
 	for(int i = 0; i < g.base[currNodeInd].size; i++){
-		neighbors.push_back(g.base[currNodeInd].arr[i];
+		cout << g.base[currNodeInd].arr[i].letter << "  " << g.base[currNodeInd].arr[i].weight << endl;
+		neighbors.push_back(g.base[currNodeInd].arr[i]);
 	}
-	
 	return neighbors;
 }
 
